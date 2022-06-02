@@ -1,0 +1,71 @@
+# Indicate your PUID and PGID ( $id )
+# Standart password for qbittorrent - admin:adminadmin
+
+version: '2'
+services:
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /home/user/jackett_stack/sonarr/config:/config
+      - /home/user/jackett_stack/downloads/serials:/serials
+      - /home/user/jackett_stack/sonarr/downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: always
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /home/user/jackett_stack/radarr/config:/config
+      - /home/user/jackett_stack/downloads/movies:/movies
+      - /home/user/jackett_stack/radarr/downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: always
+    
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - WEBUI_PORT=8068
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /home/user/jackett_stack/qbittorrent/config:/config
+      - /home/user/jackett_stack/qbittorrent/downloads:/downloads
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8068:8068
+    restart: always
+
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+ #   environment:
+ #     - RUN_OPTS=--ProxyConnection=torproxy:8118
+    volumes:
+      - /home/user/jackett_stack/jackett/config:/config
+    ports:
+      - 9117:9117
+    restart: always
+    
+#  torproxy:
+#    restart: always
+#    image: dperson/torproxy:latest
+#    container_name: torproxy2
+#    ports:
+#      - "8118:8118"
+#    build:
+#      context: .
+#      args:
+#        b: 500
