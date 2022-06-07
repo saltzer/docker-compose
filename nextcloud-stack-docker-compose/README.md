@@ -1,0 +1,4 @@
+# nextcloud stack
+
+- nextcloud
+- postgres

@@ -1,0 +1,40 @@
+version: '2'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: nextcloud
+      POSTGRES_USER: nextclouduser
+      POSTGRES_PASSWORD: nextcloudpass
+    volumes:
+      - /postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+
+  app:
+    image: nextcloud
+    restart: unless-stopped
+    ports:
+      - 80:80
+    links:
+      - db
+    networks:
+      - postgres
+    volumes:
+      - /etc/nextcloud:/var/www/html
+    environment:
+      POSTGRES_DB: nextcloud
+      POSTGRES_USER: nextclouduser
+      POSTGRES_PASSWORD: nextcloudpass
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  nextcloud:
+  db:
