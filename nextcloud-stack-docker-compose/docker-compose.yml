@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: nextclouduser
       POSTGRES_PASSWORD: nextcloudpass
     volumes:
-      - /postgres:/var/lib/postgresql/data
+      - /etc/postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
