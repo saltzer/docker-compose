@@ -1,5 +1,6 @@
 # Indicate your PUID and PGID ( $id )
 # Standart password for qbittorrent - admin:adminadmin
+# Config file for integration with jackett -- /config/data/nova3/engines/jackett.json
 
 version: '2'
 services:
@@ -39,7 +40,7 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - /home/user/jackett_stack/qbittorrent/config:/config/qBittorrent
+      - /home/user/jackett_stack/qbittorrent/config:/config
       - /home/user/jackett_stack/qbittorrent/downloads:/downloads
     ports:
       - 6881:6881
