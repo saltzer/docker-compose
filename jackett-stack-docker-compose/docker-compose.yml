@@ -33,36 +33,35 @@ services:
     restart: always
     
   qbittorrent:
-    image: linuxserver/qbittorrent
+    image: hotio/qbittorrent
     container_name: qbittorrent
     environment:
-      - WEBUI_PORT=8068
       - PUID=1000
       - PGID=1000
     volumes:
-      - /home/user/jackett_stack/qbittorrent/config:/config
+      - /home/user/jackett_stack/qbittorrent/config:/config/qBittorrent
       - /home/user/jackett_stack/qbittorrent/downloads:/downloads
     ports:
       - 6881:6881
       - 6881:6881/udp
-      - 8068:8068
+      - 8080:8080
     restart: always
 
   jackett:
     image: linuxserver/jackett
     container_name: jackett
- #   environment:
- #     - RUN_OPTS=--ProxyConnection=torproxy:8118
+#    environment:
+#      - RUN_OPTS=--ProxyConnection=torproxy:8118
     volumes:
       - /home/user/jackett_stack/jackett/config:/config
     ports:
       - 9117:9117
     restart: always
-    
-#  torproxy:
-#    restart: always
-#    image: dperson/torproxy:latest
-#    container_name: torproxy2
+
+  torproxy:
+    restart: unless-stopped
+    image: dperson/torproxy:latest
+    container_name: torproxy
 #    ports:
 #      - "8118:8118"
 #    build:
