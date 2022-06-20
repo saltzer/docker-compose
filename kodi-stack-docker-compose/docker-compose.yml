@@ -17,16 +17,14 @@ services:
      - /home/user/media:/config/.kodi
 
  kodi-mysql:
-   image: "tutum/mysql:5.6"
+   image: "mysql"
+   restart: always
+   environment:
+     MYSQL_ROOT_PASSWORD: root
+     MYSQL_DATABASE: kodi_db
    ports:
      - "3307:3306"
-   environment:
-     ON_CREATE_DB: kodi_video
-     MYSQL_USER: kodi
-     MYSQL_PASS: kodi
-     #STARTUP_SQL: /tmp/mysql-script/startup.sql
    volumes:
-     # - ./config/mysql:/tmp/mysql-script
      - /home/user/media/mysql:/var/lib/mysql
 
  kodi-video-server:
